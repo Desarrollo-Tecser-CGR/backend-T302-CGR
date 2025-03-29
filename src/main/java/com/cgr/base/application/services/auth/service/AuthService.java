@@ -3,8 +3,6 @@ package com.cgr.base.application.services.auth.service;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import com.cgr.base.domain.models.entity.Logs.LogEntity;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +20,7 @@ import com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDir
 import com.cgr.base.application.exception.customException.ResourceNotFoundException;
 import com.cgr.base.domain.models.entity.Menu.Menu;
 import com.cgr.base.domain.models.entity.Logs.RoleEntity;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 import com.cgr.base.infrastructure.repositories.repositories.user.IUserRepositoryJpa;
 import com.cgr.base.infrastructure.security.Jwt.providers.JwtAuthenticationProvider;
 import com.cgr.base.infrastructure.utilities.DtoMapper;

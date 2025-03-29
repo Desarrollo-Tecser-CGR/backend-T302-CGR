@@ -1,15 +1,18 @@
 package com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDirectory;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import com.cgr.base.domain.dto.dtoUser.UserDto;
 import com.cgr.base.domain.dto.dtoUser.UserWithRolesRequestDto;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 
 public interface IUserRoleRepository {
 
     public abstract List<UserEntity> findAll();
+
+     public Optional<UserEntity> findByUserId(Long id);
 
     public abstract UserEntity assignRolesToUser(UserWithRolesRequestDto requestDto);
 

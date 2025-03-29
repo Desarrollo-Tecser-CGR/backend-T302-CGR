@@ -2,13 +2,11 @@ package com.cgr.base.domain.models.entity;
 
 import java.util.Date;
 
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.messaging.handler.annotation.SendTo;
 
 @AllArgsConstructor
 @NoArgsConstructor

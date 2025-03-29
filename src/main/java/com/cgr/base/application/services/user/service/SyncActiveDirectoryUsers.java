@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cgr.base.application.services.user.usecase.IUserSynchronizerUseCase;
 import com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDirectory.IActiveDirectoryUserRepository;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 import com.cgr.base.infrastructure.repositories.repositories.user.IUserRepositoryJpa;
 
 @Service

@@ -1,10 +1,9 @@
 package com.cgr.base.application.services.permission;
 
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 import com.cgr.base.infrastructure.repositories.repositories.user.IUserRepositoryJpa;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

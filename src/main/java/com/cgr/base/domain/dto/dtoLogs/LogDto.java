@@ -19,4 +19,6 @@ public class LogDto {
     private boolean enable;
 
     private String userCargo;
+
+    private  String tipe_of_income;
 }

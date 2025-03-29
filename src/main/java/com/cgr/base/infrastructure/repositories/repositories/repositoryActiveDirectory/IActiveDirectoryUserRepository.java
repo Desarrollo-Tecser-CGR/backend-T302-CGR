@@ -2,7 +2,7 @@ package com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDi
 
 import java.util.List;
 
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 
 public interface IActiveDirectoryUserRepository {
 

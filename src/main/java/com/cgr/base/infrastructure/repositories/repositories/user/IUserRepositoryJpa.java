@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.cgr.base.domain.models.entity.Menu.Menu;
 import com.cgr.base.domain.models.entity.Menu.SubMenuEntity;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 
 
 @Repository

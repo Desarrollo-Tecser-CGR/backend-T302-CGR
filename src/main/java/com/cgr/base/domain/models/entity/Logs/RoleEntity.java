@@ -3,7 +3,8 @@ package com.cgr.base.domain.models.entity.Logs;
 import java.util.Date;
 import java.util.List;
 
-import com.cgr.base.application.services.role.service.permission.EntityPermission;
+import com.cgr.base.domain.models.entity.EntityPermission;
+import com.cgr.base.domain.models.entity.UserEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

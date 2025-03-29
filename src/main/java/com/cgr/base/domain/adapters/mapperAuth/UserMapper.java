@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import com.cgr.base.domain.dto.dtoAuth.AuthRequestDto;
 import com.cgr.base.domain.models.UserModel;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 
 public enum UserMapper implements Function<UserEntity, AuthRequestDto> {
     INSTANCE;

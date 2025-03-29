@@ -1,11 +1,12 @@
-package com.cgr.base.domain.models.entity.Logs;
+package com.cgr.base.domain.models.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.cgr.base.domain.models.entity.EntityNotification;
+import com.cgr.base.domain.models.entity.Logs.LogEntity;
+import com.cgr.base.domain.models.entity.Logs.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -21,7 +22,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -74,9 +74,26 @@ public class UserEntity {
 
     @ManyToMany
     @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {
-            @UniqueConstraint(columnNames = { "user_id", "role_id" }) })
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "role_id" }) }
+    )
     private List<RoleEntity> roles;
+
+    @ManyToMany
+    @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
+    @JoinTable(
+            name = "user_permission",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_permission"),
+            uniqueConstraints = { @UniqueConstraint(columnNames = { "id_user", "id_permission" }) }
+    )
+    private List<EntityPermission> permissions;
+
+
+
 
     public void mapActiveDirectoryUser(UserEntity userAD) {
         this.fullName = userAD.getFullName();

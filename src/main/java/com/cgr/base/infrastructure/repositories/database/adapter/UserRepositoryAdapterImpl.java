@@ -11,7 +11,7 @@ import com.cgr.base.domain.dto.dtoUser.UserWithRolesRequestDto;
 import com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDirectory.IUserRoleRepository;
 import com.cgr.base.application.exception.customException.ResourceNotFoundException;
 import com.cgr.base.domain.models.entity.Logs.RoleEntity;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 import com.cgr.base.infrastructure.repositories.repositories.role.IRoleRepositoryJpa;
 import com.cgr.base.infrastructure.repositories.repositories.user.IUserRepositoryJpa;
 import com.cgr.base.infrastructure.utilities.DtoMapper;

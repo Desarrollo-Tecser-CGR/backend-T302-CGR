@@ -1,12 +1,9 @@
 package com.cgr.base.application.services.servicesNotification;
 
-import com.cgr.base.domain.dto.dtoEntityProvitionalPlan.EntityProvitionalPlanDto;
-import com.cgr.base.domain.dto.dtoUser.UserDto;
-import com.cgr.base.domain.dto.dtoUser.UserWithRolesResponseDto;
 import com.cgr.base.domain.dto.dtoWebSocket.EntityNotificationDto;
 import com.cgr.base.domain.models.entity.EntityNotification;
 import com.cgr.base.domain.models.entity.EntityProvitionalPlan;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 import com.cgr.base.infrastructure.config.configWebSocket.WsChatMessage;
 import com.cgr.base.infrastructure.repositories.repositories.repositoryEntityProvitionalPlan.IEntityProvitionalPlanJpa;
 import com.cgr.base.infrastructure.repositories.repositories.repositoryNotification.RepositoryNotification;

@@ -1,4 +1,4 @@
-package com.cgr.base.application.services.role.service.permission;
+package com.cgr.base.domain.models.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

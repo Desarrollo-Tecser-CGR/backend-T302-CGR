@@ -2,7 +2,12 @@ package com.cgr.base.application.services.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.cgr.base.domain.models.entity.Logs.RoleEntity;
+import com.cgr.base.infrastructure.repositories.repositories.role.IRoleRepositoryJpa;
+import com.cgr.base.infrastructure.repositories.repositories.user.IUserRepositoryJpa;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +19,7 @@ import com.cgr.base.application.services.user.usecase.IUserUseCase;
 import com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDirectory.ILogRepository;
 import com.cgr.base.infrastructure.repositories.repositories.repositoryActiveDirectory.IUserRoleRepository;
 import com.cgr.base.domain.models.entity.Logs.LogEntity;
-import com.cgr.base.domain.models.entity.Logs.UserEntity;
+import com.cgr.base.domain.models.entity.UserEntity;
 import com.cgr.base.infrastructure.utilities.DtoMapper;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +33,12 @@ public class UserServiceImpl implements IUserUseCase {
     private final ILogRepository logRepository;
 
     private final DtoMapper dtoMapper;
+
+   // agregado por jhon repositorio
+    @Autowired
+    private IRoleRepositoryJpa roleRepositoryJpa;
+    @Autowired
+    private IUserRepositoryJpa iUserRepositoryJpa;
 
     @Transactional(readOnly = true)
     @Override
@@ -59,19 +70,60 @@ public class UserServiceImpl implements IUserUseCase {
     @Transactional
     @Override
     public UserWithRolesResponseDto assignRolesToUser(UserWithRolesRequestDto requestDto) {
-        UserEntity userEntity = this.userRoleRepository.assignRolesToUser(requestDto);
-        var userResponsive = new UserWithRolesResponseDto();
-        userResponsive.setIdUser(userEntity.getId());
-        userResponsive.setUserName(userEntity.getSAMAccountName());
-        userResponsive.setFullName(userEntity.getFullName());
-        userResponsive.setEmail(userEntity.getEmail());
-        userResponsive.setPhone(userEntity.getPhone());
-        userResponsive.setEnabled(userEntity.getEnabled());
-        userResponsive.setDateModify(userEntity.getDateModify());
-        userResponsive.setCargo(userEntity.getCargo());
-        userResponsive.addRole(userEntity.getRoles());
-        return userResponsive;
+        // Buscar el usuario por ID
+        Optional<UserEntity> optionalUser = userRoleRepository.findByUserId(requestDto.getIdUser());
+
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("El usuario con ID " + requestDto.getIdUser() + " no existe.");
+        }
+
+        UserEntity userEntity = optionalUser.get();
+
+        // Buscar los roles en la BD
+        List<RoleEntity> roles = roleRepositoryJpa.findByIdIn(requestDto.getRoleIds());
+
+        if (roles == null || roles.isEmpty()) {
+            throw new IllegalArgumentException("No se encontraron los roles proporcionados.");
+        }
+
+        // Busqueda del rol administrador
+        boolean addingAdminRole = roles.stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase("Administrador"));
+
+        if (addingAdminRole && hasThreeAdminUsers()) {
+            throw new IllegalStateException("Ya se encuentran registrados los tres administradores");
+        }
+
+        // Asignar los nuevos roles al usuario
+        userEntity.getRoles().addAll(roles);
+
+        // Guardar los cambios en la BD
+        userEntity = iUserRepositoryJpa.save(userEntity);
+
+        // Crear la respuesta
+        var userResponse = new UserWithRolesResponseDto();
+        userResponse.setIdUser(userEntity.getId());
+        userResponse.setUserName(userEntity.getSAMAccountName());
+        userResponse.setFullName(userEntity.getFullName());
+        userResponse.setEmail(userEntity.getEmail());
+        userResponse.setPhone(userEntity.getPhone());
+        userResponse.setEnabled(userEntity.getEnabled());
+        userResponse.setDateModify(userEntity.getDateModify());
+        userResponse.setCargo(userEntity.getCargo());
+        userResponse.addRole(userEntity.getRoles());
+
+        return userResponse;
     }
+    // busqueda del rol administrador
+    @Transactional(readOnly = true)
+     private boolean hasThreeAdminUsers() {
+         return userRoleRepository.findAll().stream()
+                 .filter(user -> user.getRoles().stream()
+                         .anyMatch(role -> role.getName().equalsIgnoreCase("Administrador")))
+                 .count() >= 3;
+     }
+
+
 
     @Transactional
     @Override

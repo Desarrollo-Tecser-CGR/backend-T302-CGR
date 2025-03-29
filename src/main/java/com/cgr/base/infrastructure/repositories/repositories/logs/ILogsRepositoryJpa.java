@@ -12,4 +12,6 @@ public interface ILogsRepositoryJpa extends JpaRepository<LogEntity, Long> {
 
     List<LogEntity> findByUserId(Long id);
 
+
+
 }
