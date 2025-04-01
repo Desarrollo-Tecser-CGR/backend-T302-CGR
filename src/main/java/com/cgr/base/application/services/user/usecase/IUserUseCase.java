@@ -6,7 +6,7 @@ import com.cgr.base.domain.dto.dtoUser.UserDto;
 import com.cgr.base.domain.dto.dtoUser.UserWithRolesRequestDto;
 import com.cgr.base.domain.dto.dtoUser.UserWithRolesResponseDto;
 
-public interface IUserUseCase {
+public interface IUserUseCase  {
 
     public abstract List<UserWithRolesResponseDto> findAll();
 

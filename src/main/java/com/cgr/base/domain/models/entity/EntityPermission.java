@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 public class EntityPermission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    private Integer id_permission;
 
     @Column(name = "name_permission")
     private String name_permission;

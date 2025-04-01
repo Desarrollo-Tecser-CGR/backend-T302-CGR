@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.cgr.base.domain.models.entity.UserEntity;
 
 @Repository
-public interface IAuthRepositoryJpa extends JpaRepository<UserEntity,Long> { 
+public interface IAuthRepositoryJpa extends JpaRepository<UserEntity,Long> {
 
     // List<User> findBySAMAccountName(String sAMAccountName);
     UserEntity findBysAMAccountName(String sAMAccountName);

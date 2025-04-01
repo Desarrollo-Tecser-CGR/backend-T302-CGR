@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class ServicesConfigPermission {
 
@@ -26,20 +27,30 @@ public class ServicesConfigPermission {
         }
 
         try {
-            Long usuarioId = Long.parseLong(authentication.getName());
+            // 🔍 Obtener el nombre de usuario
+            String username = authentication.getName();
+            System.out.println("🔍 Usuario autenticado: " + username);
+
+            // 🔍 Buscar ID del usuario en la base de datos
+            Long usuarioId = repositoryPermission.findUserIdByUsername(username);
+            if (usuarioId == null) {
+                System.out.println("❌ No se encontró el ID del usuario en la BD.");
+                return false;
+            }
+
+            // 🔍 Obtener permisos del usuario
             List<String> permisosUsuario = repositoryPermission.findPermisosByUserId(usuarioId);
+            System.out.println("🔍 Permisos del usuario: " + permisosUsuario);
+
+            // 🔍 Verificar si tiene el permiso requerido
             return permisosUsuario != null && permisosUsuario.contains(nombrePermiso);
-        } catch (NumberFormatException e) {
-            // Manejar el caso en que authentication.getName() no sea un número válido
+        } catch (Exception e) {
+            System.out.println("❌ Error al verificar permisos: " + e.getMessage());
             return false;
         }
     }
 
     public List<String> obtenerTodosLosPermisosUsuario(Long usuarioId) {
-        // Llama al método del repositorio para obtener los permisos
         return repositoryPermission.findPermisosByUserId(usuarioId);
     }
-
-
-
 }

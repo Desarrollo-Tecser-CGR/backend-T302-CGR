@@ -39,6 +39,11 @@ public class UserRepositoryAdapterImpl implements IUserRoleRepository {
         return users;
     }
 
+    @Override
+    public Optional<UserEntity> findByUserId(Long id) {
+        return Optional.empty();
+    }
+
     @Transactional
     @Override
     public UserEntity assignRolesToUser(UserWithRolesRequestDto requestDto) {

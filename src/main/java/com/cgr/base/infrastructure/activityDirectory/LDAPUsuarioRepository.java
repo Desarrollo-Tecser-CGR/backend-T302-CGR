@@ -2,6 +2,8 @@ package com.cgr.base.infrastructure.activityDirectory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -111,7 +113,13 @@ public class LDAPUsuarioRepository implements IActiveDirectoryUserRepository {
                 String whenChanged = entry.getAttributeValue("whenChanged");
                 if (whenChanged != null) {
                     Date formattedDate = formatWhenChanged(whenChanged);
-                    userEntity.setDateModify(formattedDate);
+
+                    // Convertir Date a LocalDateTime
+                    LocalDateTime localDateTime = formattedDate.toInstant()
+                            .atZone(ZoneId.of("America/Bogota"))
+                            .toLocalDateTime();
+
+                    userEntity.setDateModify(localDateTime);
                 }
 
                 users.add(userEntity);

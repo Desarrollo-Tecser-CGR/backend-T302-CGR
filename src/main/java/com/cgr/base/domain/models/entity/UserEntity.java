@@ -2,7 +2,6 @@ package com.cgr.base.domain.models.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.cgr.base.domain.models.entity.Logs.LogEntity;
@@ -10,18 +9,7 @@ import com.cgr.base.domain.models.entity.Logs.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -42,30 +30,26 @@ public class UserEntity {
     private String fullName;
 
     private String email;
-
     private String phone;
-
-    @Column(name = "enabled")
     private Boolean enabled;
 
     @Column(name = "date_modify")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Bogota")
-    private Date dateModify;
+    private LocalDateTime dateModify; // 🔄 Cambiado de Date a LocalDateTime
 
     private String cargo;
 
     @Column(name = "user_type")
     private String userType;
 
-    //jhon
+    // Intentos de acceso fallidos y bloqueo
     @Column(name = "failed_attempts")
     private Integer failedAttempts = 0;
 
     @Column(name = "lock_time")
     private LocalDateTime lockTime;
 
-
-
+    // Relaciones con otras entidades
     @OneToMany(mappedBy = "user")
     private List<LogEntity> logs = new ArrayList<>();
 
@@ -80,7 +64,7 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"),
             uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "role_id" }) }
     )
-    private List<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
     @ManyToMany
     @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
@@ -90,10 +74,9 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "id_permission"),
             uniqueConstraints = { @UniqueConstraint(columnNames = { "id_user", "id_permission" }) }
     )
-    private List<EntityPermission> permissions;
+    private List<EntityPermission> permissions = new ArrayList<>(); // ✅ Inicializado correctamente
 
-
-
+    // ✅ Eliminado @ManyToOne user porque no tiene sentido en esta entidad
 
     public void mapActiveDirectoryUser(UserEntity userAD) {
         this.fullName = userAD.getFullName();
@@ -103,5 +86,4 @@ public class UserEntity {
         this.dateModify = userAD.getDateModify();
         this.cargo = userAD.getCargo();
     }
-
 }
