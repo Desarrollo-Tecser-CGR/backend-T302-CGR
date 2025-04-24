@@ -1,5 +1,7 @@
 package com.cgr.base.application.controller;
 
+import com.cgr.base.domain.dto.dtoExport.ExportDto;
+import com.cgr.base.domain.dto.dtoExport.TotalExportCountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,15 +33,15 @@ public class ControllerExport extends AbstractController {
         }
     }
 
-    @GetMapping("/totalCount")
-    public ResponseEntity<Long> getTotalExportCount() {
-        long totalCount = exportService.getTotalExportCount();
-        return ResponseEntity.ok(totalCount);
+    @GetMapping("/total-count")
+    public ResponseEntity<TotalExportCountDto> getTotalExportCount() {
+        TotalExportCountDto totalCountDto = exportService.getTotalExportCount();
+        return new ResponseEntity<>(totalCountDto, HttpStatus.OK);
     }
 
     @GetMapping("/counts-by-month-year")
-    public ResponseEntity<List<Object[]>> getExportCountsByMonthAndYear() {
-        List<Object[]> counts = exportService.getExportCountsByMonthAndYear();
+    public ResponseEntity<List<ExportDto>> getExportCountsByMonthAndYear() { // Cambio en el tipo de retorno
+        List<ExportDto> counts = exportService.getExportCountsByMonthAndYear();
         if (counts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

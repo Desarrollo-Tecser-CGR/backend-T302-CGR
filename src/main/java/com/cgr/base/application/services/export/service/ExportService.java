@@ -1,5 +1,7 @@
 package com.cgr.base.application.services.export.service;
 
+import com.cgr.base.domain.dto.dtoExport.ExportDto;
+import com.cgr.base.domain.dto.dtoExport.TotalExportCountDto;
 import com.cgr.base.domain.models.entity.EntityNotification;
 import com.cgr.base.domain.models.entity.ExportCount;
 import com.cgr.base.infrastructure.repositories.repositories.RepositoryExportCount;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExportService {
@@ -52,16 +55,34 @@ public class ExportService {
         repositoryExportCount.save(exportCount);
     }
 
-    public long getTotalExportCount() {
-        return repositoryExportCount.count();
+    public TotalExportCountDto getTotalExportCount() {
+        Long totalCount = repositoryExportCount.count();
+        return new TotalExportCountDto(totalCount);
     }
 
     public List<Object[]> getDistinctMonthsAndYears() {
         return repositoryExportCount.findDistinctMonthsAndYears();
     }
 
-    public List<Object[]> getExportCountsByMonthAndYear() {
-        return repositoryExportCount.countExportsByMonthAndYear();
+    public List<ExportDto> getExportCountsByMonthAndYear() {
+        List<Object[]> counts = repositoryExportCount.countExportsByMonthAndYear();
+        return counts.stream()
+                .map(count -> new ExportDto(
+                        ((Number) count[0]).intValue(),
+                        ((Number) count[1]).intValue(),
+                        ((Number) count[2]).longValue()
+                ))
+                .collect(Collectors.toList());
     }
+     /* public List<ExportDto> getExportCountsByMonthAndYear() {
+        List<Object[]> counts = repositoryExportCount.countExportsByMonthAndYear();
+        return counts.stream()
+                .map(count -> new ExportDto(
+                        (int) count[0],
+                        (int) count[1],
+                        (long) count[2] // Asegúrate de castear correctamente
+                ))
+                .collect(Collectors.toList());
+    }*/
 
 }
