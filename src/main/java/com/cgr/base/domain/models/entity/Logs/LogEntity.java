@@ -56,6 +56,9 @@ public class LogEntity {
     @JsonIgnore // Agrega esta anotación
     private UserEntity user;
 
+    @Column(name = "reason_of_failure")
+    private String reason_of_failure;
+
     public LogEntity() {
     }
 

@@ -19,5 +19,6 @@ public class AuthRequestDto {
     private String Password;
     private String email;
     private String tipe_of_income;
+    private String reasonOfFailure;
 
 }
